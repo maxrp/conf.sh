@@ -14,10 +14,13 @@
 ###     bash setup.sh -Ui vim,tmux
 ###
 
+# Extract help from this file.
 help=$(grep "^###" "$0" | cut -c 5-)
 
+# Source the functions to call later.
 . config.sh
 
+# Print help and exit if there're no options given.
 if [[ -z $1 ]]; then
   warn "${help}"
   exit 255
