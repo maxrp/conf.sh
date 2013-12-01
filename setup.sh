@@ -23,7 +23,7 @@ if [[ -z $1 ]]; then
   exit 255
 fi
 
-while getopts ":Uhli:" opt; do
+while getopts "Uhli:" opt; do
   case $opt in
     U)
       # ensure external sources are up-to-date
@@ -33,15 +33,11 @@ while getopts ":Uhli:" opt; do
       echo "${help}"
       ;;
     i)
-      
       install_modules $OPTARG
       ;;
-    \?)
-      warn "Invalid option: -${OPTARG}"
+    *)
       warn "${help}"
-      ;;
-     *)
-      warn "${help}"
+      exit 255
       ;;
   esac
 done
