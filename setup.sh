@@ -6,7 +6,7 @@
 ###       -i            Install all listed modules
 ###       -l            List available modules
 
-help=$(grep "^### " "$0" | cut -c 5-)
+. config.sh
 
 . ./lib/config.sh
 
