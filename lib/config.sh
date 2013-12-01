@@ -1,4 +1,5 @@
-SRCDIR="${PWD}/src"
+SRCDIR=$(readlink -f ${PWD}/src)
+MODBASE=$(readlink -f ${PWD}/modules)
 
 function update_submodules(){
   git submodule init
@@ -28,7 +29,7 @@ function install_modules(){
     fi
 
     for module in ${MODULES[@]}; do
-      mod_path="./lib/${module}.sh"
+      mod_path="${MODBASE}/${module}.sh"
       if [[ -f $mod_path ]]; then
         echo " + Running module: ${module}"
         #. "${mod_path}"
