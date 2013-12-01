@@ -8,7 +8,10 @@
 
 . config.sh
 
-. ./lib/config.sh
+if [[ -z $1 ]]; then
+  warn "${help}"
+  exit 255
+fi
 
 while getopts ":Uhli:" opt; do
   case $opt in
