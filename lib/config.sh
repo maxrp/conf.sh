@@ -1,4 +1,3 @@
-MODULES=()
 SRCDIR="${PWD}/src"
 
 function update_submodules(){
@@ -18,6 +17,25 @@ function config_install(){
     installopts='-C --mode=0600'
   fi 
   install $installopts $source $dest
+}
+
+function install_modules(){
+    if [[ -z $1 ]]; then
+        warn 'A comma-separated list of arguments is required.'
+    else
+        IFS=',' read -a MODULES <<<$1
+        echo "Installing the modules: ${MODULES[@]}"
+    fi
+
+    for module in ${MODULES[@]}; do
+      mod_path="./lib/${module}.sh"
+      if [[ -f $mod_path ]]; then
+        echo " + Running module: ${module}"
+        #. "${mod_path}"
+      else
+        warn " - Module '${module}' doesn't exist."
+      fi
+    done
 }
 
 function warn(){
