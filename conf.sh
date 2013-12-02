@@ -66,7 +66,7 @@ install_modules(){
     IFS=',' read -a modules <<<$1
     for module in ${modules[@]}; do
       mod_path="${MODBASE}/${module}.sh"
-      if [[ -f $mod_path ]]; then
+      if [ -f $mod_path ]; then
         echo " + Running module: ${module}"
         . "${mod_path}"
       else
@@ -77,7 +77,7 @@ install_modules(){
 
 ## Handle options {{{
 # Print help and exit if there're no options given.
-if [[ -z $1 ]]; then
+if [ -z $1 ]; then
   warn "${HELP}"
   exit 255
 fi
@@ -100,8 +100,8 @@ while getopts "Uhlni:" opt; do
       DRYRUN=1
       ;;
     i)
-      if [[ -z $OPTARG ]]; then
-          warn 'A single option or comma-separated list of arguments is required.'
+      if [ -z "${OPTARG}" ]; then
+          warn 'A single option or quoted space-separated list of arguments is required.'
           exit 255
       fi
       install_modules $OPTARG
