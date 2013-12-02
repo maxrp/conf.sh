@@ -15,10 +15,14 @@
 ###     bash conf.sh -Ui vim,tmux
 ###
 
+# Why weird assignment? To ensure trickery isn't done via newlines in dirname.
+# To do this we add a 'safety' char (X here) after the last newline then strip.
+
 # This script's full path.
-SELF=$(readlink -f "$0")
+SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%?}
 # Base directory, where this script resides
-BASEDIR=$(dirname $SELF)
+BASEDIR=$(dirname $SELF ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
+
 # Config directory
 SRCDIR="${BASEDIR}/src"
 # Modules directory
