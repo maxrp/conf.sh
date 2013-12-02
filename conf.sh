@@ -63,8 +63,7 @@ config_install(){
 }
 
 install_modules(){
-    IFS=',' read -a modules <<<$1
-    for module in ${modules[@]}; do
+    for module in $@; do
       mod_path="${MODBASE}/${module}.sh"
       if [ -f $mod_path ]; then
         echo " + Running module: ${module}"
@@ -104,7 +103,7 @@ while getopts "Uhlni:" opt; do
           warn 'A single option or quoted space-separated list of arguments is required.'
           exit 255
       fi
-      install_modules $OPTARG
+      install_modules "${OPTARG}"
       ;;
     *)
       warn "${HELP}"
