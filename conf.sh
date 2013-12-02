@@ -39,9 +39,13 @@ list_modules(){
 
 # Run git and get that ...
 update_submodules(){
-  git submodule init
-  git submodule update --recursive
-  git submodule foreach git pull origin master
+  cmd='git submodule'
+  if [ $DRYRUN ]; then
+    cmd="echo ${cmd}"
+  fi
+  $cmd init
+  $cmd update --recursive
+  $cmd foreach git pull origin master
 }
 
 config_install(){
