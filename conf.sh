@@ -55,14 +55,8 @@ config_install(){
 }
 
 install_modules(){
-    if [[ -z $1 ]]; then
-        warn 'A comma-separated list of arguments is required.'
-    else
-        IFS=',' read -a MODULES <<<$1
-        echo "Installing the modules: ${MODULES[@]}"
-    fi
-
-    for module in ${MODULES[@]}; do
+    IFS=',' read -a modules <<<$1
+    for module in ${modules[@]}; do
       mod_path="${MODBASE}/${module}.sh"
       if [[ -f $mod_path ]]; then
         echo " + Running module: ${module}"
@@ -98,6 +92,10 @@ while getopts "Uhlni:" opt; do
       DRYRUN=1
       ;;
     i)
+      if [[ -z $OPTARG ]]; then
+          warn 'A comma-separated list of arguments is required.'
+          exit 255
+      fi
       install_modules $OPTARG
       ;;
     *)
