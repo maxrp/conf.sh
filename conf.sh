@@ -85,8 +85,12 @@ if [ -z $1 ]; then
   exit 255
 fi
 
-while getopts "Uhlni:" opt; do
+while getopts "nUhli:" opt; do
   case $opt in
+    n)
+      warn "DRYRUN!!!"
+      DRYRUN=1
+      ;;
     U)
       # ensure external sources are up-to-date
       update_submodules
@@ -97,10 +101,6 @@ while getopts "Uhlni:" opt; do
     l)
       # list the available modules
       list_modules
-      ;;
-    n)
-      warn "DRYRUN!!!"
-      DRYRUN=1
       ;;
     i)
       if [ -z "${OPTARG}" ]; then
