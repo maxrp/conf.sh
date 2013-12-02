@@ -1,6 +1,6 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 
-### Usage: bash conf.sh [actions] [-i module,...]
+### Usage: sh conf.sh [actions] [-i module,...]
 ###
 ###       -U            Update all git submodules
 ###       -i            Install all listed modules
