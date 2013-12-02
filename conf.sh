@@ -5,6 +5,7 @@
 ###       -U            Update all git submodules
 ###       -i            Install all listed modules
 ###       -l            List available modules
+###       -n            Avoid making changes and echo commands instead
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
@@ -76,7 +77,7 @@ if [[ -z $1 ]]; then
   exit 255
 fi
 
-while getopts "Uhli:" opt; do
+while getopts "Uhlni:" opt; do
   case $opt in
     U)
       # ensure external sources are up-to-date
@@ -88,6 +89,10 @@ while getopts "Uhli:" opt; do
     l)
       # list the available modules
       list_modules
+      ;;
+    n)
+      echo "DRY-RUN!"
+      DRYRUN=1
       ;;
     i)
       install_modules $OPTARG
