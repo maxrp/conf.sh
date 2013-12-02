@@ -1,9 +1,8 @@
 ## theme: Theme Xorg & WMII
 
 # Xorg
-install -m 0700 $SRCDIR/theme/xinitrc      $HOME/.xinitrc
-install -m 0600 $SRCDIR/theme/Xresources   $HOME/.Xresources
+config_install theme/xinitrc xinitrc
+config_install theme/Xresources Xresources
 
 # WMII
-mkdir -p .wmii
-install -m 0700 $SRCDIR/theme/wmiirc_local $HOME/.wmii/wmiirc_local
+config_install theme/wmiirc_local wmii/wmiirc_local

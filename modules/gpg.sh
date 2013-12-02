@@ -1,2 +1,2 @@
 ## gpg: GnuPG configuration
-cp -R $SRCDIR/gnupg $HOME/.gnupg
+config_install gpg gnupg

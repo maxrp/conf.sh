@@ -1,2 +1,2 @@
 ## ssh: ~/.ssh/config
-cp $SRCDIR/ssh/config $HOME/.ssh/config
+config_install ssh/config ssh/config
