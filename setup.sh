@@ -35,6 +35,10 @@ while getopts "Uhli:" opt; do
     h)
       echo "${help}"
       ;;
+    l)
+      # list the available modules
+      list_modules
+      ;;
     i)
       install_modules $OPTARG
       ;;

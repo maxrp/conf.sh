@@ -42,3 +42,7 @@ function install_modules(){
 function warn(){
   echo "$*" > /dev/fd/2
 }
+
+function list_modules(){
+    grep -h '^## ' $MODBASE/*.sh | cut -c 4-
+}
