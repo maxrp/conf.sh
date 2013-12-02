@@ -15,10 +15,14 @@
 ###     bash conf.sh -Ui vim,tmux
 ###
 
+# This script's full path.
+SELF=$(readlink -f "$0")
+# Base directory, where this script resides
+BASEDIR=$(dirname $SELF)
 # Config directory
-SRCDIR=$(readlink -f ${PWD}/src)
+SRCDIR="${BASEDIR}/src"
 # Modules directory
-MODBASE=$(readlink -f ${PWD}/modules)
+MODBASE="${BASEDIR}/modules"
 # Extract help from this file.
 HELP=$(grep "^###" "$0" | cut -c 5-)
 
