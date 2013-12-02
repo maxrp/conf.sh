@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-### Usage: bash setup.sh [actions] [-i module,...]
+### Usage: bash conf.sh [actions] [-i module,...]
 ###
 ###       -U            Update all git submodules
 ###       -i            Install all listed modules
@@ -8,10 +8,10 @@
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
-###     bash setup.sh -i vim,tmux,ssh
+###     bash conf.sh -i vim,tmux,ssh
 ###
 ###   Update all git submodules and install vim and tmux configs:
-###     bash setup.sh -Ui vim,tmux
+###     bash conf.sh -Ui vim,tmux
 ###
 
 # Config directory
