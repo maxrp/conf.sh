@@ -88,12 +88,12 @@ while getopts "Uhlni:" opt; do
       list_modules
       ;;
     n)
-      echo "DRY-RUN!"
+      warn "DRYRUN!!!"
       DRYRUN=1
       ;;
     i)
       if [[ -z $OPTARG ]]; then
-          warn 'A comma-separated list of arguments is required.'
+          warn 'A single option or comma-separated list of arguments is required.'
           exit 255
       fi
       install_modules $OPTARG
