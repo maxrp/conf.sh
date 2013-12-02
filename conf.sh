@@ -9,10 +9,10 @@
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
-###     bash conf.sh -i vim,tmux,ssh
+###     bash conf.sh -i "vim tmux ssh"
 ###
 ###   Update all git submodules and install vim and tmux configs:
-###     bash conf.sh -Ui vim,tmux
+###     bash conf.sh -Ui "vim tmux"
 ###
 
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
