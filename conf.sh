@@ -56,7 +56,7 @@ config_install(){
   else
     cmd='install -D -m 0600'
   fi
-  if [[ $DRYRUN ]]; then
+  if [ $DRYRUN ]; then
     cmd="echo ${cmd}"
   fi
   $cmd $source $dest
