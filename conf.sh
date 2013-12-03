@@ -53,7 +53,7 @@ log(){
 }
 
 err(){
-  color 1 " ! [$*]" > /dev/fd2
+  color 1 " ! [$*]" > /dev/fd/2
   exit 127
 }
 
