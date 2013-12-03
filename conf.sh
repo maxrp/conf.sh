@@ -30,9 +30,31 @@ MODBASE="${BASEDIR}/modules"
 # Extract help from this file.
 HELP=$(grep "^###" "$0" | cut -c 5-)
 
+# Are colors supported?
+if [ -x /usr/bin/tput ] && /usr/bin/tput setaf 1 2>&1 > /dev/null; then
+    color(){
+        tput setaf $1
+        echo "$2"
+        tput sgr 0
+    }
+else
+    color(){
+        echo "$2"
+    }
+fi
+
 # Shorthand for stderr
 warn(){
-  echo "$*" > /dev/fd/2
+  color 3 " - [$*]" > /dev/fd/2
+}
+
+log(){
+  color 2 " + [$*]"
+}
+
+err(){
+  color 1 " ! [$*]" > /dev/fd2
+  exit 127
 }
 
 # The listing for a module looks like:
@@ -70,10 +92,10 @@ install_modules(){
     for module in $@; do
       mod_path="${MODBASE}/${module}.sh"
       if [ -f $mod_path ]; then
-        echo " + Running module: ${module}"
+        log "Running module: ${module}"
         . "${mod_path}"
       else
-        warn " - Module '${module}' doesn't exist."
+        warn "Module '${module}' doesn't exist."
       fi
     done
 }
@@ -81,7 +103,7 @@ install_modules(){
 ## Handle options {{{
 # Print help and exit if there're no options given.
 if [ -z $1 ]; then
-  warn "${HELP}"
+  echo "${HELP}"
   exit 255
 fi
 
