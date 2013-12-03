@@ -104,7 +104,7 @@ install_modules(){
 # Print help and exit if there're no options given.
 if [ -z $1 ]; then
   echo "${HELP}"
-  exit 255
+  err 'No arguments given.'
 fi
 
 while getopts "nUhli:" opt; do
@@ -128,8 +128,7 @@ while getopts "nUhli:" opt; do
       install_modules "${OPTARG}"
       ;;
     *)
-      echo "${HELP}"
-      exit 255
+      err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
       ;;
   esac
 done
