@@ -110,7 +110,7 @@ fi
 while getopts "nUhli:" opt; do
   case $opt in
     n)
-      warn "DRYRUN!!!"
+      warn 'This will be a dry run listing the commands to be run.'
       DRYRUN=1
       ;;
     U)
@@ -125,14 +125,10 @@ while getopts "nUhli:" opt; do
       list_modules
       ;;
     i)
-      if [ -z "${OPTARG}" ]; then
-          warn 'A single option or quoted space-separated list of arguments is required.'
-          exit 255
-      fi
       install_modules "${OPTARG}"
       ;;
     *)
-      warn "${HELP}"
+      echo "${HELP}"
       exit 255
       ;;
   esac
