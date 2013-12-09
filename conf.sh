@@ -94,7 +94,7 @@ config_install(){
   else
     cmd='install -D -m 0600'
   fi
-  rcmd $cmd $source $dest
+  rcmd "${cmd} ${source} ${dest}"
 }
 
 install_modules(){
