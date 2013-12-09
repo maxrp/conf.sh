@@ -76,7 +76,7 @@ rcmd(){
 # The listing for a module looks like:
 #   ## <name>: description 
 list_modules(){
-    rcmd grep -h '^## ' $MODBASE/*.sh | cut -c 4-
+    grep -h '^## ' $MODBASE/*.sh | cut -c 4-
 }
 
 # Run git and get that ...
