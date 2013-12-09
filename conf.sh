@@ -117,7 +117,7 @@ if [ -z $1 ]; then
   err 'No arguments given.'
 fi
 
-while getopts "nvUhlm:" opt; do
+while getopts "nvUhlm:a" opt; do
   case $opt in
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
@@ -141,6 +141,10 @@ while getopts "nvUhlm:" opt; do
       ;;
     m)
       run_modules "${OPTARG}"
+      ;;
+    a)
+      modules=$(head -1 /home/maxp/code/conf.sh/modules/*.sh | grep '##' | sed 's/## //g; s/: .*$//g')
+      run_modules $modules
       ;;
     *)
       err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"

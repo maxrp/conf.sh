@@ -1,5 +1,4 @@
 ## bash: bashrc etc.
-FILES=(bashrc bash_prompt bash_aliases)
-for file in "${FILES[@]}"; do
-  config_install bash/$file $file
+for file in bashrc bash_prompt bash_aliases; do
+  conf bash/$file $file
 done
