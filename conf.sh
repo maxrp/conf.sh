@@ -95,7 +95,8 @@ conf(){
   source="${SRCDIR}/${1}"
   dest="${HOME}/.${2}"
   if [ -d $source ]; then
-    cmd='cp -R'
+    rcmd install -m 0700 -d -v ${dest}
+    rcmd cp -avR ${source}/* ${dest}/
   else
     cmd='install -D -m 0600'
   fi
