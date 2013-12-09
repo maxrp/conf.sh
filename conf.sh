@@ -3,16 +3,16 @@
 ### Usage: sh conf.sh [actions] [-i module,...]
 ###
 ###       -U            Update all git submodules
-###       -i            Install all listed modules
+###       -m            Run all listed modules
 ###       -l            List available modules
 ###       -n            Avoid making changes and echo commands instead
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
-###     bash conf.sh -i "vim tmux ssh"
+###     bash conf.sh -m "vim tmux ssh"
 ###
 ###   Update all git submodules and install vim and tmux configs:
-###     bash conf.sh -Ui "vim tmux"
+###     bash conf.sh -Um "vim tmux"
 ###
 
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
@@ -97,7 +97,7 @@ config_install(){
   rcmd "${cmd} ${source} ${dest}"
 }
 
-install_modules(){
+run_modules(){
     for module in $@; do
       mod_path="${MODBASE}/${module}.sh"
       if [ -f $mod_path ]; then
@@ -116,7 +116,7 @@ if [ -z $1 ]; then
   err 'No arguments given.'
 fi
 
-while getopts "nvUhli:" opt; do
+while getopts "nvUhlm:" opt; do
   case $opt in
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
@@ -138,8 +138,8 @@ while getopts "nvUhli:" opt; do
       # list the available modules
       list_modules
       ;;
-    i)
-      install_modules "${OPTARG}"
+    m)
+      run_modules "${OPTARG}"
       ;;
     *)
       err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
