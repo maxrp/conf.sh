@@ -3,6 +3,7 @@
 ### Usage: sh conf.sh [actions] [-i module,...]
 ###
 ###       -U            Update all git submodules
+###       -u            List projects provided as git submodules
 ###       -m            Run all listed modules
 ###       -l            List available modules
 ###       -n            Avoid making changes and echo commands instead
@@ -99,6 +100,20 @@ list_modules(){
     grep -h '^## ' $MODBASE/*.sh | cut -c 4-
 }
 
+# List packages provided by git submodules in this directory
+list_git_submodules(){
+  if command -v git > /dev/null; then
+    echo 'Packages provided by git submodules:'
+    for mod in $(git submodule status | awk '{ print $2;}'); do
+      color 7 $(basename $mod)
+      printf '\t'
+      color 3 $mod
+    done
+  else
+    err 'Git is required for submodule listings.'
+  fi
+}
+
 # Run git and get that ...
 update_submodules(){
   if command -v git > /dev/null; then
@@ -147,7 +162,7 @@ if [ -z $1 ]; then
   err 'No arguments given.'
 fi
 
-while getopts "nvUhlm:a" opt; do
+while getopts "nvUuhlm:a" opt; do
   case $opt in
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
@@ -157,6 +172,9 @@ while getopts "nvUhlm:a" opt; do
       warn 'Verbosity enabled.'
       VERBOSE=1
       if [ $DRYRUN ]; then warn 'Dry run was enabled first making -v redundant.'; fi
+      ;;
+    u)
+      list_git_submodules
       ;;
     U)
       # ensure external sources are up-to-date
