@@ -7,6 +7,7 @@
 ###       -l            List available modules
 ###       -n            Avoid making changes and echo commands instead
 ###       -v            Be verbose
+###       -a            Install all modules
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
