@@ -82,9 +82,13 @@ list_modules(){
 
 # Run git and get that ...
 update_submodules(){
-  rcmd git submodule init
-  rcmd git submodule update --recursive
-  rcmd git submodule foreach git pull origin master
+  if command -v git > /dev/null; then
+    rcmd git submodule init
+    rcmd git submodule update --recursive
+    rcmd git submodule foreach git pull origin master
+  else
+    err 'Git is required to fetch submodule updates.'
+  fi
 }
 
 conf(){
