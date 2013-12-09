@@ -32,7 +32,7 @@ MODBASE="${BASEDIR}/modules"
 HELP=$(grep "^###" "$0" | cut -c 5-)
 
 # Are colors supported?
-if [ -x /usr/bin/tput ] && /usr/bin/tput setaf 1 2>&1 > /dev/null; then
+if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
     color(){
         tput sgr 0
         tput setaf $1
