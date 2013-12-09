@@ -20,20 +20,25 @@
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
 # To do this we add a 'safety' char (X here) after the last newline then strip.
 
+# Global variables for the script and it's modules {{{
 # This script's full path.
 SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%?}
 # Base directory, where this script resides
 BASEDIR=$(dirname $SELF ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
-
 # Config directory
 SRCDIR="${BASEDIR}/src"
 # Modules directory
 MODBASE="${BASEDIR}/modules"
 # Extract help from this file.
 HELP=$(grep "^###" "$0" | cut -c 5-)
+# }}}
 
+# Presentation functions {{{
 # Are colors supported?
 if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
+    # If colors are supported, define a wrapper which resets the terminal
+    # and generally makes things not messy with escap sequences.
+    # color <code> <text>
     color(){
         tput sgr 0
         tput setaf $1
@@ -41,29 +46,41 @@ if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
         tput sgr 0
     }
 else
+    # If colors aren't supported, discard the color integer and just call echo
     color(){
         echo "$2"
     }
 fi
 
-# Shorthand for stderr
+# debug level verbosity
+# debug <msg>
+debug(){
+  color 4 "D: $*"
+}
+
+# shorthand for stderr
+# warn <msg>
 warn(){
   color 3 " - [$*]" > /dev/fd/2
 }
 
+# log or informational messages
+# log <msg>
 log(){
   color 2 " + [$*]"
 }
 
+# Print a fatal error message and stop execution
+# err <msg>
 err(){
   color 1 " ! [$*]" > /dev/fd/2
   exit 127
 }
+# }}}
 
-debug(){
-  color 4 "D:  $*"
-}
-
+# Core functions {{{
+# Run a command that must exhibit the verbose or dryrun behaviors
+# rcmd <cmd [opts, ...]>
 rcmd(){
   if [ $DRYRUN ]; then
       debug "${@}"
@@ -75,7 +92,8 @@ rcmd(){
   fi
 }
 
-# The listing for a module looks like:
+# List available modules based on their headers.
+# The header for a module looks like:
 #   ## <name>: description 
 list_modules(){
     grep -h '^## ' $MODBASE/*.sh | cut -c 4-
@@ -92,6 +110,8 @@ update_submodules(){
   fi
 }
 
+# Copy configs from SRCDIR/<source> to ~/.<dest>
+# conf <src> <dst>
 conf(){
   source="${SRCDIR}/${1}"
   dest="${HOME}/.${2}"
@@ -105,6 +125,8 @@ conf(){
   fi
 }
 
+# Run all loadable modules requested -- quoted and space-delimited
+# run_modules '[module ...]'
 run_modules(){
     for module in $@; do
       mod_path="${MODBASE}/${module}.sh"
@@ -116,8 +138,9 @@ run_modules(){
       fi
     done
 }
+# }}}
 
-## Handle options {{{
+## Handle command options (or absence thereof) {{{
 # Print help and exit if there're no options given.
 if [ -z $1 ]; then
   echo "${HELP}"
