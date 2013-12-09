@@ -64,6 +64,9 @@ debug(){
 rcmd(){
   if [ $DRYRUN ]; then
       debug "${@}"
+  elif [ $VERBOSE ]; then
+      debug "${@}"
+      $@
   else
       $@
   fi
@@ -112,11 +115,16 @@ if [ -z $1 ]; then
   err 'No arguments given.'
 fi
 
-while getopts "nUhli:" opt; do
+while getopts "nvUhli:" opt; do
   case $opt in
     n)
       warn 'This will be a dry run listing the commands to be run.'
       DRYRUN=1
+      ;;
+    v)
+      warn 'Verbosity enabled.'
+      VERBOSE=1
+      if [ $DRYRUN ]; then warn 'Dry run was enabled first making -v redundant.'; fi
       ;;
     U)
       # ensure external sources are up-to-date
