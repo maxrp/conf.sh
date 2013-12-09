@@ -1,2 +1,2 @@
 ## tmux: tmux.conf
-config_install tmux.conf tmux.conf
+conf tmux.conf tmux.conf

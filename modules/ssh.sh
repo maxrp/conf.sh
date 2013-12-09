@@ -1,2 +1,2 @@
 ## ssh: ~/.ssh/config
-config_install ssh/config ssh/config
+conf ssh/config ssh/config

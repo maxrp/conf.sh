@@ -1,2 +1,2 @@
 ## gpg: GnuPG configuration
-config_install gpg gnupg
+conf gpg gnupg

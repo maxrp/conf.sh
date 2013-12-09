@@ -87,7 +87,7 @@ update_submodules(){
   rcmd git submodule foreach git pull origin master
 }
 
-config_install(){
+conf(){
   source="${SRCDIR}/${1}"
   dest="${HOME}/.${2}"
   if [ -d $source ]; then

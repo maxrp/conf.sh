@@ -1,2 +1,2 @@
 ## proxychains: proxychains.conf for Tor
-config_install proxychains.conf proxychains.conf
+conf proxychains.conf proxychains.conf
