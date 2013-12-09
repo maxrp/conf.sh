@@ -98,9 +98,10 @@ conf(){
     rcmd install -m 0700 -d -v ${dest}
     rcmd cp -avR ${source}/* ${dest}/
   else
-    cmd='install -D -m 0600'
+    if [ -x $source  ]; then mode_arg='-m 0700';
+    else mode_arg='-m 0600'; fi
+    rcmd install ${mode_arg} -D ${source} ${dest}
   fi
-  rcmd "${cmd} ${source} ${dest}"
 }
 
 run_modules(){
