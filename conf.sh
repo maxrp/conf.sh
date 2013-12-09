@@ -57,21 +57,29 @@ err(){
   exit 127
 }
 
+debug(){
+  color 4 "D:  $*"
+}
+
+rcmd(){
+  if [ $DRYRUN ]; then
+      debug "${@}"
+  else
+      $@
+  fi
+}
+
 # The listing for a module looks like:
 #   ## <name>: description 
 list_modules(){
-    grep -h '^## ' $MODBASE/*.sh | cut -c 4-
+    rcmd grep -h '^## ' $MODBASE/*.sh | cut -c 4-
 }
 
 # Run git and get that ...
 update_submodules(){
-  cmd='git submodule'
-  if [ $DRYRUN ]; then
-    cmd="echo ${cmd}"
-  fi
-  $cmd init
-  $cmd update --recursive
-  $cmd foreach git pull origin master
+  rcmd git submodule init
+  rcmd git submodule update --recursive
+  rcmd git submodule foreach git pull origin master
 }
 
 config_install(){
@@ -82,10 +90,7 @@ config_install(){
   else
     cmd='install -D -m 0600'
   fi
-  if [ $DRYRUN ]; then
-    cmd="echo ${cmd}"
-  fi
-  $cmd $source $dest
+  rcmd $cmd $source $dest
 }
 
 install_modules(){
