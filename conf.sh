@@ -118,7 +118,7 @@ fi
 while getopts "nvUhli:" opt; do
   case $opt in
     n)
-      warn 'This will be a dry run listing the commands to be run.'
+      warn 'This will be a dry run and will only list the commands to be run.'
       DRYRUN=1
       ;;
     v)
