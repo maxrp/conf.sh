@@ -33,6 +33,7 @@ HELP=$(grep "^###" "$0" | cut -c 5-)
 # Are colors supported?
 if [ -x /usr/bin/tput ] && /usr/bin/tput setaf 1 2>&1 > /dev/null; then
     color(){
+        tput sgr 0
         tput setaf $1
         echo "$2"
         tput sgr 0
