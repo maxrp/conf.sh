@@ -191,7 +191,7 @@ while getopts "nvUuhlm:a" opt; do
       run_modules "${OPTARG}"
       ;;
     a)
-      modules=$(head -1 /home/maxp/code/conf.sh/modules/*.sh | grep '##' | sed 's/## //g; s/: .*$//g')
+      modules=$(head -1 ${BASEDIR}/*.sh | grep '##' | sed 's/## //g; s/: .*$//g')
       run_modules $modules
       ;;
     *)
