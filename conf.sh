@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 ### Usage: sh conf.sh [actions] [-i module,...]
 ###
