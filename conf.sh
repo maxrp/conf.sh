@@ -1,6 +1,6 @@
 #!/bin/sh
 
-### Usage: sh conf.sh [-Uvula] [-m "module module ..."]
+### Usage: sh conf.sh [-Uvulan] [-m "module module ..."]
 ###
 ###       -U            Update all git submodules
 ###       -u            List projects provided as git submodules
@@ -9,6 +9,7 @@
 ###       -n            Avoid making changes and echo commands instead
 ###       -v            Be verbose
 ###       -a            Install all modules
+###       -nv           Be verbose, don't change anything and show diffs
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
@@ -125,11 +126,22 @@ update_submodules(){
   fi
 }
 
+# Diff, piping to the pager (and colordiff if available)
+# _diff <dest> <source>
+_diff(){
+    log "Showing what would change on installation of the stored conf: ${2}"
+    if [ $COLOR -a `command -v colordiff > /dev/null` ]; then
+        diff -Nur ${1} ${2} | colordiff | $PAGER;
+    else diff -Nur ${1} ${2} | $PAGER; fi;
+}
+
 # Copy configs from SRCDIR/<source> to ~/.<dest>
 # conf <src> <dst>
 conf(){
   source="${SRCDIR}/${1}"
   dest="${HOME}/.${2}"
+  if [ $VERBOSE -a $DRYRUN ]; then _diff ${dest} ${source}; fi
+
   if [ -d $source ]; then
     rcmd install -m 0700 -d -v ${dest}
     rcmd cp -avR ${source}/* ${dest}/
@@ -167,11 +179,12 @@ while getopts "nvUuhlm:a" opt; do
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
       DRYRUN=1
+      if [ $VERBOSE ]; then log 'Verbose was also enabled; showing diffs too.'; fi
       ;;
     v)
       warn 'Verbosity enabled.'
       VERBOSE=1
-      if [ $DRYRUN ]; then warn 'Dry run was enabled first making -v redundant.'; fi
+      if [ $DRYRUN ]; then log 'Dry run was also enabled; showing diffs too.'; fi
       ;;
     u)
       list_git_submodules
