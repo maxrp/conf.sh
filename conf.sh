@@ -1,6 +1,6 @@
 #!/bin/sh
 
-### Usage: sh conf.sh [actions] [-i module,...]
+### Usage: sh conf.sh [-Uvula] [-m "module module ..."]
 ###
 ###       -U            Update all git submodules
 ###       -u            List projects provided as git submodules
