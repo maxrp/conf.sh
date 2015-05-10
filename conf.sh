@@ -129,7 +129,7 @@ update_submodules(){
 # If args are longer than `tput lines`, use $PAGER
 # _pager <content>
 _pager(){
-    diff_len=$(echo "${diff_contents}" | wc -l)
+    diff_len=$(echo "${1}" | wc -l)
     if [ ${diff_len} -gt `tput lines` ]; then
         echo "${1}" | $PAGER
     else
@@ -153,7 +153,7 @@ _diff(){
 conf(){
   source="${SRCDIR}/${1}"
   dest="${HOME}/.${2}"
-  if [ $VERBOSE -a $DRYRUN ]; then
+  if [ $VERBOSE ]; then
     _diff ${dest} ${source};
   fi
 
