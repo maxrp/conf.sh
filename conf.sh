@@ -105,7 +105,7 @@ list_modules(){
 list_git_submodules(){
   if command -v git > /dev/null; then
     echo 'Packages provided by git submodules:'
-    for mod in $(git submodule status | awk '{ print $2;}'); do
+    for mod in $(git submodule status --recursive | awk '{ print $2;}'); do
       color 7 $(basename $mod)
       printf '\t'
       color 3 $mod
@@ -118,9 +118,9 @@ list_git_submodules(){
 # Run git and get that ...
 update_submodules(){
   if command -v git > /dev/null; then
-    rcmd git submodule init
-    rcmd git submodule update --recursive
-    rcmd git submodule foreach git pull origin master
+    rcmd git -C ./src submodule init
+    rcmd git -C ./src submodule update --recursive
+    rcmd git submodule foreach --recursive git pull origin master
   else
     err 'Git is required to fetch submodule updates.'
   fi
