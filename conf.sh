@@ -126,13 +126,26 @@ update_submodules(){
   fi
 }
 
-# Diff, piping to the pager (and colordiff if available)
+# If args are longer than `tput lines`, use $PAGER
+# _pager <content>
+_pager(){
+    diff_len=$(echo "${diff_contents}" | wc -l)
+    if [ ${diff_len} -gt `tput lines` ]; then
+        echo "${1}" | $PAGER
+    else
+        echo "${1}"
+    fi;
+}
+
+# Diff, and colordiff if available, paging if needed
 # _diff <dest> <source>
 _diff(){
     log "Showing what would change on installation of the stored conf: ${2}"
+    diff_contents=$(diff -Nur ${1} ${2})
     if [ $COLOR -a `command -v colordiff > /dev/null` ]; then
-        diff -Nur ${1} ${2} | colordiff | $PAGER;
-    else diff -Nur ${1} ${2} | $PAGER; fi;
+        diff_contents=$(echo "${diff_contents}" | colordiff);
+    fi;
+    _pager "${diff_contents}"
 }
 
 # Copy configs from SRCDIR/<source> to ~/.<dest>
@@ -140,7 +153,9 @@ _diff(){
 conf(){
   source="${SRCDIR}/${1}"
   dest="${HOME}/.${2}"
-  if [ $VERBOSE -a $DRYRUN ]; then _diff ${dest} ${source}; fi
+  if [ $VERBOSE -a $DRYRUN ]; then
+    _diff ${dest} ${source};
+  fi
 
   if [ -d $source ]; then
     rcmd install -m 0700 -d -v ${dest}
