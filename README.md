@@ -1,4 +1,15 @@
-# Usage
+# conf.sh: Configuration set up written for POSIX compliant shells.
+
+## What?
+
+For a long time I used puppet to manage my dotfiles. Then for a while I used
+Ansible. But man, those are some heavyweight approaches. And (back then, at
+least) cross-platform support was iffy or inconsistent.
+
+So I wrote this. It's intended to work anywhere you have have a POSIX shell,
+and to work really well anywhere you have a POSIX shell and git.
+
+## Usage
 ```
 Usage: sh conf.sh [-Uvulan] [-m "module module ..."]
 
@@ -18,3 +29,12 @@ Examples:
   Update all git submodules and install vim and tmux configs:
     ./conf.sh -Um "vim tmux"
 ```
+
+## TODO
+ - Sync live configs with the repository
+    - Encryption of certain configs
+ - Automatically set up config submodule repository
+ - Automatically construct a "configs" directory hierarchy
+ - Generate README from comments in conf.sh/modules
+ - Optional self-installation to $PREFIX
+ - Roll up self and configs into a single archive for easy transport
