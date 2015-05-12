@@ -78,6 +78,28 @@ err(){
   color 1 " ! [$*]" > /dev/fd/2
   exit 127
 }
+
+# If args are longer than `tput lines`, use $PAGER
+# _pager <content>
+_pager(){
+    txt_len=$(echo "${1}" | wc -l)
+    if [ ${txt_len} -gt `tput lines` ]; then
+        echo "${1}" | $PAGER
+    else
+        echo "${1}"
+    fi;
+}
+
+# Diff, and colordiff if available, paging if needed
+# _diff <dest> <source>
+_diff(){
+    log "Showing what would change on installation of the stored conf: ${2}"
+    diff_contents=$(diff -Nur ${1} ${2})
+    if [ $COLOR -a `command -v colordiff > /dev/null` ]; then
+        diff_contents=$(echo "${diff_contents}" | colordiff);
+    fi;
+    _pager "${diff_contents}"
+}
 # }}}
 
 # Core functions {{{
@@ -124,28 +146,6 @@ update_submodules(){
   else
     err 'Git is required to fetch submodule updates.'
   fi
-}
-
-# If args are longer than `tput lines`, use $PAGER
-# _pager <content>
-_pager(){
-    txt_len=$(echo "${1}" | wc -l)
-    if [ ${txt_len} -gt `tput lines` ]; then
-        echo "${1}" | $PAGER
-    else
-        echo "${1}"
-    fi;
-}
-
-# Diff, and colordiff if available, paging if needed
-# _diff <dest> <source>
-_diff(){
-    log "Showing what would change on installation of the stored conf: ${2}"
-    diff_contents=$(diff -Nur ${1} ${2})
-    if [ $COLOR -a `command -v colordiff > /dev/null` ]; then
-        diff_contents=$(echo "${diff_contents}" | colordiff);
-    fi;
-    _pager "${diff_contents}"
 }
 
 # Copy configs from SRCDIR/<source> to ~/.<dest>
