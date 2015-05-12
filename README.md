@@ -1,4 +1,4 @@
-# conf.sh: Configuration set up written for POSIX compliant shells.
+# conf.sh: configuration set up targeting POSIX-like shells.
 
 ## What?
 
@@ -38,3 +38,4 @@ Examples:
  - Generate README from comments in conf.sh/modules
  - Optional self-installation to $PREFIX
  - Roll up self and configs into a single archive for easy transport
+ - Test suite for: ash, bash, dash, pdksh, mksh, zsh
