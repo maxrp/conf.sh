@@ -13,10 +13,10 @@
 ###
 ### Examples:
 ###   Install the vim, tmux and ssh modules:
-###     bash conf.sh -m "vim tmux ssh"
+###     ./conf.sh -m "vim tmux ssh"
 ###
 ###   Update all git submodules and install vim and tmux configs:
-###     bash conf.sh -Um "vim tmux"
+###     ./conf.sh -Um "vim tmux"
 ###
 
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
