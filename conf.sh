@@ -19,10 +19,10 @@
 ###     ./conf.sh -Um "vim tmux"
 ###
 
+# Global variables for the script and it's modules {{{
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
 # To do this we add a 'safety' char (X here) after the last newline then strip.
 
-# Global variables for the script and it's modules {{{
 # This script's full path.
 SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%?}
 # Base directory, where this script resides
