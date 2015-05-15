@@ -120,7 +120,7 @@ _pager(){
 # Diff, and colordiff if available, paging if needed
 # _diff <dest> <source>
 _diff(){
-    log "Showing what would change on installation of the stored conf: ${2}"
+    log "Showing difference between [${1}] and [${2}]"
     diff_contents=$(diff -Nur ${1} ${2})
     if [ $COLOR -a `command -v colordiff > /dev/null` ]; then
         diff_contents=$(echo "${diff_contents}" | colordiff);
@@ -227,12 +227,12 @@ while getopts "nvUuhlm:ads" opt; do
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
       DRYRUN=1
-      if [ $VERBOSE ]; then log 'Verbose was also enabled; showing diffs too.'; fi
+      if [ $VERBOSE ]; then log 'Verbosity + dry run was enabled; showing diffs.'; fi
       ;;
     v)
       warn 'Verbosity enabled.'
       VERBOSE=1
-      if [ $DRYRUN ]; then log 'Dry run was also enabled; showing diffs too.'; fi
+      if [ $DRYRUN ]; then log 'Dry run + verbosity was enabled; showing diffs.'; fi
       ;;
     s)
       warn 'Copying live configs to repository.'
