@@ -84,6 +84,10 @@ if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
         echo "$2"
         tput sgr 0
     }
+    # If color is supported and colordiff installed, alias diff to colordiff
+    if command -v colordiff > /dev/null; then
+        alias diff=colordiff
+    fi;
 else
     # If colors aren't supported, discard the color integer and just call echo
     color(){
@@ -132,9 +136,6 @@ _pager(){
 _diff(){
     log "Showing difference between [${1}] and [${2}]"
     diff_contents=$(diff -Nur ${1} ${2})
-    if [ $COLOR -a `command -v colordiff > /dev/null` ]; then
-        diff_contents=$(echo "${diff_contents}" | colordiff);
-    fi;
     _pager "${diff_contents}"
 }
 # }}}
