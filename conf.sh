@@ -203,8 +203,7 @@ run_modules(){
 }
 # }}}
 
-## Handle command options (or absence thereof) {{{
-# Print help and exit if there're no options given.
+# Print help and exit if there're no options given, otherwise handle options {{{
 if [ -z $1 ]; then
   echo "${HELP}"
   err 'No arguments given.'
