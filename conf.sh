@@ -11,7 +11,7 @@
 ### 
 ###### Usage
 ### ```
-###~Usage: sh conf.sh [-Uvuland] [-m "module module ..."]
+###~Usage: sh conf.sh [-Uvulands] [-m "module module ..."]
 ###~
 ###~      -U            Update all git submodules
 ###~      -u            List projects provided as git submodules
@@ -19,6 +19,7 @@
 ###~      -l            List available modules
 ###~      -n            Avoid making changes and echo commands instead
 ###~      -v            Be verbose
+###~      -s            Sync all live configs to their repository origin
 ###~      -a            Install all modules
 ###~      -nv           Be verbose, don't change anything and show diffs
 ###~      -d            Extract documentation from this script
@@ -29,11 +30,16 @@
 ###~
 ###~  Update all git submodules and install vim and tmux configs:
 ###~    ./conf.sh -Um "vim tmux"
+###~
+###~  Discover what has changed between a local config and the repository copy:
+###~    ./conf.sh -snvm "tmux ssh zsh"
+###~
+###~  Synchronize the files in the repository with the live configs:
+###~    ./conf.sh -s "tmux ssh zsh"
 ### ```
 ### 
 ###### TODO
-###  - Sync live configs with the repository
-###     - Encryption of certain configs
+###  - Encryption of certain configs
 ###  - Automatically set up config submodule repository
 ###  - Automatically construct a "configs" directory hierarchy
 ###  - Optional self-installation to $PREFIX
@@ -170,10 +176,17 @@ update_submodules(){
 }
 
 # Copy configs from SRCDIR/<source> to ~/.<dest>
+# Alternatively, when SYNC is set, sync ~/.<dest> to SRCDIR/<source>
 # conf <src> <dst>
 conf(){
-  source="${SRCDIR}/${1}"
-  dest="${HOME}/.${2}"
+  if [ $SYNC ]; then
+    source="${HOME}/.${2}"
+    dest="${SRCDIR}/${1}"
+  else
+    source="${SRCDIR}/${1}"
+    dest="${HOME}/.${2}"
+  fi
+
   if [ $VERBOSE ]; then
     _diff ${dest} ${source};
   fi
@@ -209,7 +222,7 @@ if [ -z $1 ]; then
   err 'No arguments given.'
 fi
 
-while getopts "nvUuhlm:ad" opt; do
+while getopts "nvUuhlm:ads" opt; do
   case $opt in
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
@@ -220,6 +233,10 @@ while getopts "nvUuhlm:ad" opt; do
       warn 'Verbosity enabled.'
       VERBOSE=1
       if [ $DRYRUN ]; then log 'Dry run was also enabled; showing diffs too.'; fi
+      ;;
+    s)
+      warn 'Copying live configs to repository.'
+      SYNC=1
       ;;
     u)
       list_git_submodules

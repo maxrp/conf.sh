@@ -10,7 +10,7 @@ and to work really well anywhere you have a POSIX shell and git.
 
 ## Usage
 ```
-Usage: sh conf.sh [-Uvuland] [-m "module module ..."]
+Usage: sh conf.sh [-Uvulands] [-m "module module ..."]
 
       -U            Update all git submodules
       -u            List projects provided as git submodules
@@ -18,6 +18,7 @@ Usage: sh conf.sh [-Uvuland] [-m "module module ..."]
       -l            List available modules
       -n            Avoid making changes and echo commands instead
       -v            Be verbose
+      -s            Sync all live configs to their repository origin
       -a            Install all modules
       -nv           Be verbose, don't change anything and show diffs
       -d            Extract documentation from this script
@@ -28,6 +29,12 @@ Examples:
 
   Update all git submodules and install vim and tmux configs:
     ./conf.sh -Um "vim tmux"
+
+  Discover what has changed between a local config and the repository copy:
+    ./conf.sh -snvm "tmux ssh zsh"
+
+  Synchronize the files in the repository with the live configs:
+    ./conf.sh -s "tmux ssh zsh"
 ```
 
 ## TODO
