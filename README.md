@@ -38,8 +38,7 @@ Examples:
 ```
 
 ## TODO
- - Sync live configs with the repository
-    - Encryption of certain configs
+ - Encryption of certain configs
  - Automatically set up config submodule repository
  - Automatically construct a "configs" directory hierarchy
  - Optional self-installation to $PREFIX
