@@ -214,7 +214,7 @@ conf(){
 # Run all loadable modules requested -- quoted and space-delimited
 # run_modules '[module ...]'
 run_modules(){
-    for module in "$@"; do
+    for module in $@; do
       mod_path="${MODBASE}/${module}.sh"
       if [ -f "$mod_path" ]; then
         log "Running module: ${module}"
