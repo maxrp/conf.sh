@@ -62,7 +62,7 @@
 # This script's full path.
 SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%?}
 # Base directory, where this script resides
-BASEDIR=$(dirname $SELF ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
+BASEDIR=$(dirname "$SELF" ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
 # Config directory
 SRCDIR="${BASEDIR}/src"
 # Modules directory
@@ -79,7 +79,7 @@ if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
     # color <code> <text>
     color(){
         tput sgr 0
-        tput setaf $1
+        tput setaf "$1"
         echo "$2"
         tput sgr 0
     }
@@ -123,7 +123,7 @@ err(){
 # _pager <content>
 _pager(){
     txt_len=$(echo "${1}" | wc -l)
-    if [ ${txt_len} -gt `tput lines` ]; then
+    if [ "${txt_len}" -gt "$(tput lines)" ]; then
         echo "${1}" | $PAGER
     else
         echo "${1}"
@@ -134,7 +134,7 @@ _pager(){
 # _diff <dest> <source>
 _diff(){
     log "Showing difference between [${1}] and [${2}]"
-    diff_contents=$(diff -Nur ${1} ${2})
+    diff_contents=$(diff -Nur "${1}" "${2}")
     _pager "${diff_contents}"
 }
 # }}}
@@ -143,13 +143,13 @@ _diff(){
 # Run a command that must exhibit the verbose or dryrun behaviors
 # rcmd <cmd [opts, ...]>
 rcmd(){
-  if [ $DRYRUN ]; then
+  if [ "$DRYRUN" ]; then
       debug "${@}"
-  elif [ $VERBOSE ]; then
+  elif [ "$VERBOSE" ]; then
       debug "${@}"
-      $@
+      "$@"
   else
-      $@
+      "$@"
   fi
 }
 
@@ -157,7 +157,7 @@ rcmd(){
 # The header for a module looks like:
 #   ## <name>: description 
 list_modules(){
-    grep -h '^## ' $MODBASE/*.sh | cut -c 4-
+    grep -h '^## ' "$MODBASE"/*.sh | cut -c 4-
 }
 
 # List packages provided by git submodules in this directory
@@ -165,9 +165,9 @@ list_git_submodules(){
   if command -v git > /dev/null; then
     echo 'Packages provided by git submodules:'
     for mod in $(git submodule status --recursive | awk '{ print $2;}'); do
-      color 7 $(basename $mod)
+      color 7 "$(basename "$mod")"
       printf '\t'
-      color 3 $mod
+      color 3 "$mod"
     done
   else
     err 'Git is required for submodule listings.'
@@ -189,7 +189,7 @@ update_submodules(){
 # Alternatively, when SYNC is set, sync ~/.<dest> to SRCDIR/<source>
 # conf <src> <dst>
 conf(){
-  if [ $SYNC ]; then
+  if [ "$SYNC" ]; then
     source="${HOME}/.${2}"
     dest="${SRCDIR}/${1}"
   else
@@ -197,26 +197,26 @@ conf(){
     dest="${HOME}/.${2}"
   fi
 
-  if [ $VERBOSE ]; then
-    _diff ${dest} ${source};
+  if [ "$VERBOSE" ]; then
+    _diff "${dest}" "${source}";
   fi
 
-  if [ -d $source ]; then
-    rcmd install -m 0700 -d -v ${dest}
-    rcmd cp -avR ${source}/* ${dest}/
+  if [ -d "$source" ]; then
+    rcmd install -m 0700 -d -v "${dest}"
+    rcmd cp -avR "${source}"/* "${dest}"/
   else
-    if [ -x $source  ]; then mode_arg='-m 0700';
+    if [ -x "$source"  ]; then mode_arg='-m 0700';
     else mode_arg='-m 0600'; fi
-    rcmd install ${mode_arg} -D ${source} ${dest}
+    rcmd install "${mode_arg}" -D "${source}" "${dest}"
   fi
 }
 
 # Run all loadable modules requested -- quoted and space-delimited
 # run_modules '[module ...]'
 run_modules(){
-    for module in $@; do
+    for module in "$@"; do
       mod_path="${MODBASE}/${module}.sh"
-      if [ -f $mod_path ]; then
+      if [ -f "$mod_path" ]; then
         log "Running module: ${module}"
         . "${mod_path}"
       else
@@ -227,7 +227,7 @@ run_modules(){
 # }}}
 
 # Print help and exit if there're no options given, otherwise handle options {{{
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
   echo "${HELP}"
   err 'No arguments given.'
 fi
@@ -237,12 +237,12 @@ while getopts "nvUuhlm:ads" opt; do
     n)
       warn 'This will be a dry run and will only list the commands to be run.'
       DRYRUN=1
-      if [ $VERBOSE ]; then log 'Verbosity + dry run was enabled; showing diffs.'; fi
+      if [ "$VERBOSE" ]; then log 'Verbosity + dry run was enabled; showing diffs.'; fi
       ;;
     v)
       warn 'Verbosity enabled.'
       VERBOSE=1
-      if [ $DRYRUN ]; then log 'Dry run + verbosity was enabled; showing diffs.'; fi
+      if [ "$DRYRUN" ]; then log 'Dry run + verbosity was enabled; showing diffs.'; fi
       ;;
     s)
       warn 'Copying live configs to repository.'
@@ -266,12 +266,12 @@ while getopts "nvUuhlm:ads" opt; do
       run_modules "${OPTARG}"
       ;;
     a)
-      modules=$(head -1 ${BASEDIR}/*.sh | grep '##' | sed 's/## //g; s/: .*$//g')
-      run_modules $modules
+      modules=$(head -1 "${BASEDIR}"/*.sh | grep '##' | sed 's/## //g; s/: .*$//g')
+      run_modules "$modules"
       ;;
     d)
       # generate markdown README
-      grep "^###" `readlink -f "${0}"` | cut -c 5-
+      grep "^###" "$(readlink -f "${0}")" | cut -c 5-
       ;;
     *)
       err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
