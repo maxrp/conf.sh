@@ -122,8 +122,8 @@ err(){
 # If args are longer than `tput lines`, use $PAGER
 # _pager <content>
 _pager(){
-    txt_len=$(echo "${1}" | wc -l)
-    if [ "${txt_len}" -gt "$(tput lines)" ]; then
+    txt_len=$(echo "${1}" | wc -l | cut -f1 -d' ')
+    if [ $txt_len -gt "$(tput lines)" ]; then
         echo "${1}" | $PAGER
     else
         echo "${1}"
