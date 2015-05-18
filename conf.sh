@@ -266,8 +266,7 @@ while getopts "nvUuhlm:ads" opt; do
       run_modules "${OPTARG}"
       ;;
     a)
-      modules=$(head -1 "${BASEDIR}"/*.sh | grep '##' | sed 's/## //g; s/: .*$//g')
-      run_modules "$modules"
+      run_modules "$(list_modules | cut -f1 -d':' | tr '\n' ' ')"
       ;;
     d)
       # generate markdown README
