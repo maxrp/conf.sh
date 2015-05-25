@@ -8,11 +8,11 @@ TEST_OPTS="-lna"
 export LC_ALL="POSIX"
 
 if command -v busybox > /dev/null; then
-    busybox_sh(){
+    BusyBox(){
         busybox sh "${@}"
     }
-    busybox_sh_version() {
-        busybox | head -1 | awk '{ print $1, $2;}'
+    BusyBox_version() {
+        busybox | head -1 | cut -d' ' -f2
     }
 fi;
 
@@ -41,7 +41,7 @@ yash_version(){
 main() {
     reflog="${HOME}/ref.log"
     ${REFERENCE_SH} conf.sh ${TEST_OPTS} 2>/dev/null > "${reflog}"
-    for shell in bash busybox_sh dash ksh mksh posix_compliant_bash yash; do
+    for shell in bash BusyBox dash ksh mksh posix_compliant_bash yash; do
         if command -v "${shell}" > /dev/null; then
             shell_version="${shell}_version"
             if command -v "${shell_version}" > /dev/null ; then
