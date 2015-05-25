@@ -3,7 +3,7 @@
 HOME="$(mktemp -d)"       # this shouldn't write anything, but just in case
 REFERENCE_SH='dash'
 TEST_OPTS="-lna"
-export LC_ALL="C"
+export LC_ALL="POSIX"
 
 if command -v busybox > /dev/null; then
     busybox_sh(){
