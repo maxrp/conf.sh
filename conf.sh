@@ -66,21 +66,6 @@ if [ "${POSIX_VERSION}" -lt 200800 ]; then
     fi
 fi;
 
-# Global variables for the script and it's modules {{{
-# Why weird assignment? To ensure trickery isn't done via newlines in dirname.
-# To do this we add a 'safety' char (X here) after the last newline then strip.
-
-# This script's full path.
-SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%??}
-# Base directory, where this script resides
-BASEDIR=$(dirname "$SELF" ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
-# Config directory
-SRCDIR="${BASEDIR}/src"
-# Modules directory
-MODBASE="${BASEDIR}/modules"
-# Extract help from this file.
-HELP=$(grep "^###~" "${SELF}" | cut -c 5-)
-# }}}
 
 # Presentation functions {{{
 # Are colors supported?
@@ -237,57 +222,80 @@ run_modules(){
 }
 # }}}
 
-# Print help and exit if there're no options given, otherwise handle options {{{
-if [ -z "$1" ]; then
-  echo "${HELP}"
-  err 'No arguments given.'
-fi
+main(){
+    # Global variables for the script and it's modules {{{
+    # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
+    # To do this we add a 'safety' char (X here) after the last newline then strip.
 
-while getopts "nvUuhlm:ads" opt; do
-  case $opt in
-    n)
-      warn 'This will be a dry run and will only list the commands to be run.'
-      DRYRUN=1
-      if [ "$VERBOSE" ]; then log 'Verbosity + dry run was enabled; showing diffs.'; fi
-      ;;
-    v)
-      warn 'Verbosity enabled.'
-      VERBOSE=1
-      if [ "$DRYRUN" ]; then log 'Dry run + verbosity was enabled; showing diffs.'; fi
-      ;;
-    s)
-      warn 'Copying live configs to repository.'
-      SYNC=1
-      ;;
-    u)
-      list_git_submodules
-      ;;
-    U)
-      # ensure external sources are up-to-date
-      update_submodules
-      ;;
-    h)
+    # This script's full path.
+    SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%??}
+    # Base directory, where this script resides
+    BASEDIR=$(dirname "$SELF" ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
+    # Config directory
+    SRCDIR="${BASEDIR}/src"
+    # Modules directory
+    MODBASE="${BASEDIR}/modules"
+    # Extract help from this file.
+    HELP=$(grep "^###~" "${SELF}" | cut -c 5-)
+    # }}}
+
+    # Print help and exit if there're no options given, otherwise handle options {{{
+    if [ -z "$1" ]; then
       echo "${HELP}"
-      ;;
-    l)
-      # list the available modules
-      list_modules
-      ;;
-    m)
-      run_modules "${OPTARG}"
-      ;;
-    a)
-      run_modules "$(list_modules | cut -f1 -d':' | tr '\n' ' ')"
-      ;;
-    d)
-      # generate markdown README
-      grep "^###" "${SELF}" | cut -c 5-
-      echo "## Reference Versions"
-      sh "${BASEDIR}/tests.sh"
-      ;;
-    *)
-      err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
-      ;;
-  esac
-done
-# }}}
+      err 'No arguments given.'
+    fi
+
+    while getopts "nvUuhlm:ads" opt; do
+      case $opt in
+        n)
+          warn 'This will be a dry run and will only list the commands to be run.'
+          DRYRUN=1
+          if [ "$VERBOSE" ]; then log 'Verbosity + dry run was enabled; showing diffs.'; fi
+          ;;
+        v)
+          warn 'Verbosity enabled.'
+          VERBOSE=1
+          if [ "$DRYRUN" ]; then log 'Dry run + verbosity was enabled; showing diffs.'; fi
+          ;;
+        s)
+          warn 'Copying live configs to repository.'
+          SYNC=1
+          ;;
+        u)
+          list_git_submodules
+          ;;
+        U)
+          # ensure external sources are up-to-date
+          update_submodules
+          ;;
+        h)
+          echo "${HELP}"
+          ;;
+        l)
+          # list the available modules
+          list_modules
+          ;;
+        m)
+          run_modules "${OPTARG}"
+          ;;
+        a)
+          run_modules "$(list_modules | cut -f1 -d':' | tr '\n' ' ')"
+          ;;
+        d)
+          # generate markdown README
+          grep "^###" "${SELF}" | cut -c 5-
+          echo "## Reference Versions"
+          sh "${BASEDIR}/tests.sh"
+          ;;
+        *)
+          err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
+          ;;
+      esac
+    done
+    # }}}
+}
+
+# If we're not being sourced, run main()
+if [ -z "${0##*conf.sh}" ]; then
+    main "$@"
+fi;
