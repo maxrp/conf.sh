@@ -49,7 +49,16 @@ Examples:
  - Automatically construct a "configs" directory hierarchy
  - Optional self-installation to $PREFIX
  - Roll up self and configs into a single archive for easy transport
- - Test suite for: ash, bash, dash, pdksh, mksh, yash
+ - Testing with: ash, pdksh, zsh
 
 [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"
+
+## Reference Versions
+* bash 4.3.39(1)-release ... Passed!
+* BusyBox v1.23.2 ... Passed!
+* dash ??? ... Passed!
+* ksh ABIJM 93v- ... Passed!
+* mksh @(#)MIRBSD R50 ... Passed!
+* posix_compliant_bash 4.3.39(1)-release ... Passed!
+* yash 2.37 ... Passed!

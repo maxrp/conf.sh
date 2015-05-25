@@ -50,10 +50,11 @@
 ###  - Automatically construct a "configs" directory hierarchy
 ###  - Optional self-installation to $PREFIX
 ###  - Roll up self and configs into a single archive for easy transport
-###  - Test suite for: ash, bash, dash, pdksh, mksh, yash
+###  - Testing with: ash, pdksh, zsh
 ###
 ### [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 ### [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"
+### 
 
 # Global variables for the script and it's modules {{{
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
@@ -270,7 +271,9 @@ while getopts "nvUuhlm:ads" opt; do
       ;;
     d)
       # generate markdown README
-      grep "^###" "$(readlink -f "${0}")" | cut -c 5-
+      grep "^###" "$(readlink -f "${SELF}")" | cut -c 5-
+      echo "## Reference Versions"
+      sh "${BASEDIR}/tests.sh"
       ;;
     *)
       err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
