@@ -71,7 +71,7 @@ fi;
 # To do this we add a 'safety' char (X here) after the last newline then strip.
 
 # This script's full path.
-SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%?}
+SELF=$(readlink -f "$0" ; echo X) ; SELF=${SELF%??}
 # Base directory, where this script resides
 BASEDIR=$(dirname "$SELF" ; echo X) ; BASEDIR=${BASEDIR%??} # strip \n and X
 # Config directory
@@ -79,7 +79,7 @@ SRCDIR="${BASEDIR}/src"
 # Modules directory
 MODBASE="${BASEDIR}/modules"
 # Extract help from this file.
-HELP=$(grep "^###~" "$0" | cut -c 5-)
+HELP=$(grep "^###~" "${SELF}" | cut -c 5-)
 # }}}
 
 # Presentation functions {{{
@@ -281,7 +281,7 @@ while getopts "nvUuhlm:ads" opt; do
       ;;
     d)
       # generate markdown README
-      grep "^###" "$(readlink -f "${SELF}")" | cut -c 5-
+      grep "^###" "${SELF}" | cut -c 5-
       echo "## Reference Versions"
       sh "${BASEDIR}/tests.sh"
       ;;
