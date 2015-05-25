@@ -47,15 +47,15 @@ main() {
             if command -v "${shell_version}" > /dev/null ; then
                 shellver=$("${shell}_version")
             fi
-            echo "** Testing ${shell}..."
+            echo "* ${shell} ${shellver} ... " | tr -d '\n'
             shlog="${HOME}/${shell}.log"
             ${shell} conf.sh ${TEST_OPTS} 2>/dev/null > "${shlog}"
             if diff -q "${shlog}" "${reflog}"; then
-                echo "Passed: ${shell} ${shellver}"
+                echo "Passed!"
             else
-                echo "Failed: ${shell}"
+                echo "Failed :("
             fi
-            shellver=""
+            shellver="???"
         else
             echo "** Skipped: ${shell} (not found)."
         fi;
