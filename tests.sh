@@ -3,9 +3,20 @@
 HOME="$(mktemp -d)"       # this shouldn't write anything, but just in case
 REF_SH='dash'
 TEST_OPTS="-lna"
-
-alias busyboxsh="busybox sh"
 export LC_ALL="C"
+
+if command -v busybox > /dev/null; then
+    busybox_sh(){
+        busybox sh "${@}"
+    }
+fi;
+
+if command -v bash > /dev/null; then
+    posix_compliant_bash(){
+        bash -posix "${@}"
+    }
+fi;
+
 
 main() {
     reflog="${HOME}/ref.log"
