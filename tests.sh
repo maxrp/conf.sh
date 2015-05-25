@@ -5,6 +5,7 @@ REF_SH='dash'
 TEST_OPTS="-lna"
 
 alias busyboxsh="busybox sh"
+export LC_ALL="C"
 
 main() {
     reflog="${HOME}/ref.log"
