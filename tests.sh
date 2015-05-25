@@ -26,10 +26,10 @@ bash_version() {
     bash "${TESTLIBDIR}/version.bash"
 }
 ksh_version() {
-    ksh "${TESTLIBDIR}/version.ksh"
+    ksh "${TESTLIBDIR}/version.ksh" | cut -d' ' -f2,3
 }
 mksh_version() {
-    mksh "${TESTLIBDIR}/version.ksh"
+    mksh "${TESTLIBDIR}/version.ksh" | cut -d' ' -f1,3
 }
 posix_compliant_bash_version() {
     bash --posix "${TESTLIBDIR}/version.bash"
