@@ -7,6 +7,7 @@ REFERENCE_SH='dash'
 TEST_OPTS="-lna"
 export LC_ALL="POSIX"
 
+# Only alias these if busybox exists
 if command -v busybox > /dev/null; then
     BusyBox(){
         busybox sh "${@}"
@@ -16,6 +17,7 @@ if command -v busybox > /dev/null; then
     }
 fi;
 
+# Only alias if we actually have bash
 if command -v bash > /dev/null; then
     posix_compliant_bash(){
         bash -posix "${@}"
@@ -54,9 +56,9 @@ main() {
             shlog="${HOME}/${shell}.log"
             ${shell} conf.sh ${TEST_OPTS} 2>/dev/null > "${shlog}"
             if diff -q "${shlog}" "${reflog}"; then
-                echo "Passed!"
+                echo "*Passed*"
             else
-                echo "Failed :("
+                echo "*Failed :(*"
             fi
             shellver="???"
         else
