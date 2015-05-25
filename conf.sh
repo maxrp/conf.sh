@@ -51,7 +51,7 @@
 ###  - Automatically construct a "configs" directory hierarchy
 ###  - Optional self-installation to $PREFIX
 ###  - Roll up self and configs into a single archive for easy transport
-###  - Testing with: ash, pdksh, zsh
+###  - Testing with: ash, zsh
 ###
 ### [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 ### [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"

@@ -31,6 +31,9 @@ ksh_version() {
 mksh_version() {
     mksh "${TESTLIBDIR}/version.ksh" | cut -d' ' -f1,3
 }
+pdksh_version() {
+    pdksh "${TESTLIBDIR}/version.ksh" | cut -d' ' -f1,3
+}
 posix_compliant_bash_version() {
     bash --posix "${TESTLIBDIR}/version.bash"
 }
@@ -41,7 +44,7 @@ yash_version(){
 main() {
     reflog="${HOME}/ref.log"
     ${REFERENCE_SH} conf.sh ${TEST_OPTS} 2>/dev/null > "${reflog}"
-    for shell in bash BusyBox dash ksh mksh posix_compliant_bash yash; do
+    for shell in bash BusyBox dash ksh mksh pdksh posix_compliant_bash yash; do
         if command -v "${shell}" > /dev/null; then
             shell_version="${shell}_version"
             if command -v "${shell_version}" > /dev/null ; then
