@@ -12,7 +12,8 @@ and to work really well anywhere you have a POSIX shell and git.
 Older systems may only provide `command -v` as part of User Portability
 Utilities as it was flagged in [The Open Group Base Specifications Issue 6/
 POSIX.1-2004][1], by [The Open Group Base Specifications Issue 7/POSIX.1-2008][2]
-it was standard. `checkbashisms` will complain about this.
+it was standard. Some versions of `checkbashisms` will complain about this,
+however we check for this extension early on in the script.
 
 ## Usage
 ```

@@ -13,7 +13,8 @@
 ### Older systems may only provide `command -v` as part of User Portability
 ### Utilities as it was flagged in [The Open Group Base Specifications Issue 6/
 ### POSIX.1-2004][1], by [The Open Group Base Specifications Issue 7/POSIX.1-2008][2]
-### it was standard. `checkbashisms` will complain about this.
+### it was standard. Some versions of `checkbashisms` will complain about this,
+### however we check for this extension early on in the script.
 ###
 ###### Usage
 ### ```
@@ -55,6 +56,15 @@
 ### [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 ### [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"
 ### 
+
+POSIX_VERSION="$(getconf _POSIX_VERSION)"
+# Prior to POSIX 2008 command's -v flag is only provided in the User
+# Portability Utilities extension (POSIX2_UPE)
+if [ "${POSIX_VERSION}" -lt 200800 ]; then
+    if [ "$(getconf POSIX2_UPE)" = "undefined" ]; then
+        exit 127;
+    fi
+fi;
 
 # Global variables for the script and it's modules {{{
 # Why weird assignment? To ensure trickery isn't done via newlines in dirname.
