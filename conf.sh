@@ -173,8 +173,8 @@ list_git_submodules(){
 # Run git and get that ...
 update_submodules(){
   if command -v git > /dev/null; then
-    rcmd git -C ./src submodule init
-    rcmd git -C ./src submodule update --recursive
+    rcmd git -C "${BASEDIR}/src" submodule init
+    rcmd git -C "${BASEDIR}/src" submodule update --recursive
     rcmd git submodule foreach --recursive git pull origin master
   else
     err 'Git is required to fetch submodule updates.'
