@@ -116,6 +116,13 @@ err(){
   exit 127
 }
 
+# Generate markdown README and run shell integration tests
+gendoc(){
+    grep "^###" "${SELF}" | cut -c 5-
+    echo "## Reference Versions"
+    sh "${BASEDIR}/sh_integration_test.sh"
+}
+
 # If args are longer than `tput lines`, use $PAGER
 # _pager <content>
 _pager(){
@@ -283,10 +290,7 @@ main(){
           run_modules "$(list_modules | cut -f1 -d':' | tr '\n' ' ')"
           ;;
         d)
-          # generate markdown README
-          grep "^###" "${SELF}" | cut -c 5-
-          echo "## Reference Versions"
-          sh "${BASEDIR}/tests.sh"
+          gendoc
           ;;
         *)
           err "Unrecognized option '${1}'. For help, run: 'sh ${0} -h'"
