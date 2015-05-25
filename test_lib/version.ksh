@@ -1,0 +1,1 @@
+echo $KSH_VERSION
