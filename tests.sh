@@ -1,7 +1,7 @@
 #!/bin/sh
 
 HOME="$(mktemp -d)"       # this shouldn't write anything, but just in case
-REF_SH='dash'
+REFERENCE_SH='dash'
 TEST_OPTS="-lna"
 export LC_ALL="C"
 
@@ -20,8 +20,8 @@ fi;
 
 main() {
     reflog="${HOME}/ref.log"
-    ${REF_SH} conf.sh ${TEST_OPTS} 2>/dev/null > "${reflog}"
-    for shell in bash busyboxsh dash ksh mksh yash; do
+    ${REFERENCE_SH} conf.sh ${TEST_OPTS} 2>/dev/null > "${reflog}"
+    for shell in bash busybox_sh dash ksh mksh posix_compliant_bash yash; do
         if command -v "${shell}" > /dev/null; then
             echo "** Testing ${shell}..."
             shlog="${HOME}/${shell}.log"
