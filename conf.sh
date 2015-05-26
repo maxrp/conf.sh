@@ -1,7 +1,7 @@
 #!/bin/sh
 ##### conf.sh: configuration set up targeting POSIX-like shells.
 ###
-### [![Build Status](https://api.travis-ci.org/maxrp/conf.sh.svg)](https://api.travis-ci.org/maxrp/conf.sh.svg)
+### [![Build Status](https://api.travis-ci.org/maxrp/conf.sh.svg)](https://api.travis-ci.org/maxrp/conf.sh)
 ###### What?
 ### For a long time I used puppet to manage my dotfiles. Then for a while I 
 ### used Ansible. But man, those are some heavyweight approaches. And (back then, at
@@ -53,7 +53,7 @@
 ###  - Optional self-installation to $PREFIX
 ###  - Roll up self and configs into a single archive for easy transport
 ###  - Testing with: ash, zsh
-###  - Unit testing
+###  - More unit testing
 ###
 ### [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 ### [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"
