@@ -59,6 +59,7 @@ main() {
                 echo "*Passed*"
             else
                 echo "*Failed :(*"
+                exit 127
             fi
             shellver="???"
         else
