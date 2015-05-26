@@ -69,28 +69,6 @@ fi;
 
 
 # Presentation functions {{{
-# Are colors supported?
-if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
-    # If colors are supported, define a wrapper which resets the terminal
-    # and generally makes things not messy with escap sequences.
-    # color <code> <text>
-    color(){
-        tput sgr 0
-        tput setaf "$1"
-        echo "$2"
-        tput sgr 0
-    }
-    # If color is supported and colordiff installed, alias diff to colordiff
-    if command -v colordiff > /dev/null; then
-        alias diff=colordiff
-    fi;
-else
-    # If colors aren't supported, discard the color integer and just call echo
-    color(){
-        echo "$2"
-    }
-fi
-
 # debug level verbosity
 # debug <msg>
 debug(){
@@ -300,7 +278,35 @@ main(){
     # }}}
 }
 
-# If we're not being sourced, run main()
+# If we're not being sourced, setup colors and run main()
 if [ -z "${0##*conf.sh}" ]; then
+    # Are colors supported?
+    if command -v tput > /dev/null && tput setaf 1 > /dev/null; then
+        # If colors are supported, define a wrapper which resets the terminal
+        # and generally makes things not messy with escap sequences.
+        # color <code> <text>
+        color(){
+            tput sgr 0
+            tput setaf "$1"
+            echo "$2"
+            tput sgr 0
+        }
+        # If color is supported and colordiff installed, alias diff to colordiff
+        if command -v colordiff > /dev/null; then
+            alias diff=colordiff
+        fi;
+    else
+        # If colors aren't supported, discard the color integer and just call echo
+        color(){
+            echo "$2"
+        }
+    fi
+
+    # Run main()
     main "$@"
+else
+    # Stub color() definition for tests
+    color(){
+        echo "$2"
+    }
 fi;
