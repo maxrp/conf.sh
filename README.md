@@ -45,6 +45,16 @@ Examples:
     ./conf.sh -s "tmux ssh zsh"
 ```
 
+## Tested Shells
+
+* **bash** (and POSIX compliant mode) 4.3.39(1)-release
+* **BusyBox** v1.23.2
+* **dash** 0.5.8.2
+* **ksh** ABIJM 93v-
+* **mksh** @(#)MIRBSD R50
+* **pdksh** @(#)PD v5.2.14
+* **yash** 2.37
+
 ## TODO
  - Encryption of certain configs
  - Automatically set up config submodule repository
@@ -57,12 +67,3 @@ Examples:
 [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"
 
-## Reference Versions
-* bash 4.3.39(1)-release ... *Passed*
-* BusyBox v1.23.2 ... *Passed*
-* dash ??? ... *Passed*
-* ksh ABIJM 93v- ... *Passed*
-* mksh @(#)MIRBSD R50 ... *Passed*
-* pdksh @(#)PD v5.2.14 ... *Passed*
-* posix_compliant_bash 4.3.39(1)-release ... *Passed*
-* yash 2.37 ... *Passed*

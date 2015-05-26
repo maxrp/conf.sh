@@ -46,6 +46,16 @@
 ###~    ./conf.sh -s "tmux ssh zsh"
 ### ```
 ### 
+###### Tested Shells
+###
+### * **bash** (and POSIX compliant mode) 4.3.39(1)-release
+### * **BusyBox** v1.23.2
+### * **dash** 0.5.8.2
+### * **ksh** ABIJM 93v-
+### * **mksh** @(#)MIRBSD R50
+### * **pdksh** @(#)PD v5.2.14
+### * **yash** 2.37
+### 
 ###### TODO
 ###  - Encryption of certain configs
 ###  - Automatically set up config submodule repository
@@ -98,8 +108,6 @@ err(){
 # Generate markdown README and run shell integration tests
 gendoc(){
     grep "^###" "${SELF}" | cut -c 5-
-    echo "## Reference Versions"
-    sh "${BASEDIR}/sh_integration_test.sh"
 }
 
 # If args are longer than `tput lines`, use $PAGER
