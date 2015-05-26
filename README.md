@@ -1,5 +1,6 @@
 # conf.sh: configuration set up targeting POSIX-like shells.
 
+[![Build Status](https://api.travis-ci.org/maxrp/conf.sh.svg)](https://api.travis-ci.org/maxrp/conf.sh.svg)
 ## What?
 For a long time I used puppet to manage my dotfiles. Then for a while I 
 used Ansible. But man, those are some heavyweight approaches. And (back then, at
@@ -51,16 +52,17 @@ Examples:
  - Optional self-installation to $PREFIX
  - Roll up self and configs into a single archive for easy transport
  - Testing with: ash, zsh
+ - Unit testing
 
 [1]: http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2004 Edition"
 [2]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html "man page for `command`, IEEE Std 1003.1, 2013 Edition"
 
 ## Reference Versions
-* bash 4.3.39(1)-release ... Passed!
-* BusyBox v1.23.2 ... Passed!
-* dash ??? ... Passed!
-* ksh ABIJM 93v- ... Passed!
-* mksh @(#)MIRBSD R50 ... Passed!
-* pdksh @(#)PD v5.2.14 ... Passed!
-* posix_compliant_bash 4.3.39(1)-release ... Passed!
-* yash 2.37 ... Passed!
+* bash 4.3.39(1)-release ... *Passed*
+* BusyBox v1.23.2 ... *Passed*
+* dash ??? ... *Passed*
+* ksh ABIJM 93v- ... *Passed*
+* mksh @(#)MIRBSD R50 ... *Passed*
+* pdksh @(#)PD v5.2.14 ... *Passed*
+* posix_compliant_bash 4.3.39(1)-release ... *Passed*
+* yash 2.37 ... *Passed*

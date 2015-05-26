@@ -1,6 +1,7 @@
 #!/bin/sh
 ##### conf.sh: configuration set up targeting POSIX-like shells.
-### 
+###
+### [![Build Status](https://api.travis-ci.org/maxrp/conf.sh.svg)](https://api.travis-ci.org/maxrp/conf.sh.svg)
 ###### What?
 ### For a long time I used puppet to manage my dotfiles. Then for a while I 
 ### used Ansible. But man, those are some heavyweight approaches. And (back then, at
