@@ -198,7 +198,7 @@ conf(){
   else
     if [ -x "$source"  ]; then mode_arg='-m 0700';
     else mode_arg='-m 0600'; fi
-    rcmd install "${mode_arg}" -D "${source}" "${dest}"
+    rcmd install ${mode_arg} -D "${source}" "${dest}"
   fi
 }
 
