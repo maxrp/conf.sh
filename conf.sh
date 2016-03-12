@@ -19,11 +19,11 @@
 ###
 ###### Usage
 ### ```
-###~Usage: sh conf.sh [-Uvulands] [-m "module module ..."]
+###~Usage: sh conf.sh [-Uvulands] [-i "module module ..."]
 ###~
 ###~      -U            Update all git submodules
 ###~      -u            List projects provided as git submodules
-###~      -m            Run all listed modules
+###~      -i            Install all listed modules
 ###~      -l            List available modules
 ###~      -n            Avoid making changes and echo commands instead
 ###~      -v            Be verbose
@@ -34,13 +34,13 @@
 ###~
 ###~Examples:
 ###~  Install the vim, tmux and ssh modules:
-###~    ./conf.sh -m "vim tmux ssh"
+###~    ./conf.sh -i "vim tmux ssh"
 ###~
 ###~  Update all git submodules and install vim and tmux configs:
-###~    ./conf.sh -Um "vim tmux"
+###~    ./conf.sh -Ui "vim tmux"
 ###~
 ###~  Discover what has changed between a local config and the repository copy:
-###~    ./conf.sh -snvm "tmux ssh zsh"
+###~    ./conf.sh -snvi "tmux ssh zsh"
 ###~
 ###~  Synchronize the files in the repository with the live configs:
 ###~    ./conf.sh -s "tmux ssh zsh"
@@ -240,7 +240,7 @@ main(){
       err 'No arguments given.'
     fi
 
-    while getopts "nvUuhlm:ads" opt; do
+    while getopts "nvUuhli:ads" opt; do
       case $opt in
         n)
           warn 'This will be a dry run and will only list the commands to be run.'
@@ -270,7 +270,7 @@ main(){
           # list the available modules
           list_modules
           ;;
-        m)
+        i)
           run_modules "${OPTARG}"
           ;;
         a)
