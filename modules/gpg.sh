@@ -1,2 +1,2 @@
 ## gpg: GnuPG configuration
-conf gpg gnupg
+conf ${HOME}/.gnupg

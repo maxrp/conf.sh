@@ -176,16 +176,17 @@ update_submodules(){
   fi
 }
 
-# Copy configs from SRCDIR/<source> to ~/.<dest>
+# TODO: update docs here
 # Alternatively, when SYNC is set, sync ~/.<dest> to SRCDIR/<source>
-# conf <src> <dst>
+# conf <dst>
 conf(){
+  source_name=$(basename "${1}")
   if [ "$SYNC" ]; then
-    source="${HOME}/.${2}"
-    dest="${SRCDIR}/${1}"
+    source="${1}"
+    dest="${SRCDIR}"/"${source_name}"
   else
-    source="${SRCDIR}/${1}"
-    dest="${HOME}/.${2}"
+    source="${SRCDIR}"/"${source_name}"
+    dest="${1}"
   fi
 
   if [ "$VERBOSE" ]; then
@@ -195,10 +196,12 @@ conf(){
   if [ -d "$source" ]; then
     rcmd install -m 0700 -d -v "${dest}"
     rcmd cp -avR "${source}"/* "${dest}"/
-  else
+  elif [ -e "$source" ]; then
     if [ -x "$source"  ]; then mode_arg='-m 0700';
     else mode_arg='-m 0600'; fi
     rcmd install ${mode_arg} -D "${source}" "${dest}"
+  else
+    debug "${source} doesn't exist and was skipped."
   fi
 }
 

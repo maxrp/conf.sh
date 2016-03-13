@@ -1,2 +1,2 @@
-## dircolors: set up dircolors from the themedir
-conf theme/dircolors dircolors
+## dircolors: set up dircolors
+conf ${HOME}/.dircolors
